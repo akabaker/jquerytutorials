@@ -4,22 +4,98 @@
 	<meta charset=utf-8>
 	<title>jQuery tutorials</title>
 	<link rel="stylesheet" href="style.css">
+	<style>
+		p {
+			text-align: left;
+		}
+
+		article {
+			margin: auto;
+			width: 600px;
+		}
+
+		blockquote.co {
+			float: right;
+			background: #e3e3e3;
+			font-size: 2em;
+			width: 35%;
+			text-align: center;
+		}
+	</style>
 </head>
 <body>
-	<h2>Click me</h2>
-	<h2>Click me</h2>
-	<h2>Click me</h2>
-	<h2>Click me</h2>
-	<h2>Click me</h2>
+	<article>
+	    <h1>My Post</h1>
+		<p>
+			Contrary to popular belief, Lorem Ipsum is not simply random text. 
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+		</p>
+		<p>
+			<span class=co>Contrary to popular belief, Lorem Ipsum is not simply random text.</span>
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+		</p>
+		<p>
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			<span class=co>Blarg barlg blag lag .</span>
+			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
+		</p>
+	</article>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
-	(function() {
-		$('h2').on('click', function() {
-			console.log('clicked');
-			$(this).clone(true).appendTo('body');
+		/*
+		* If you're creating an element use insertAfter, if the element exists, use after, etc
+		*/
+		(function() {
+			/*
+			$('<h2></h2>', {
+				text: 'Hello from javascript',
+				class: 'omg'
+			}).insertAfter('h1');
+			*/
+			
+			//Move an existing element
+			//$('h1').appendTo('article');
+		
+			//This means get a collection of P tags, then append h1 to each.
+			//$('p').after($('h1'));
 
-		});
-	})();
+			//Get the first paragraph and then append h1
+			//$('p').eq(0).after($('h1'));
+
+			//A better way
+			/*
+			$('p').eq(0).after(function() {
+				return $(this).prev();
+			});
+			*/
+
+			/*
+			* Adding block quotes around a span
+			* For each co, grab the closest parent element and then create bquotes
+			*/
+			var co = $('article').find('span.co').each(function() {
+				var $this = $(this);
+
+				$('<blockquote></blockquote>', {
+					class: 'co',
+					text: $this.text()
+				}).prependTo($this).closest('p');
+			});	
+		})();
 	</script>
 </body>
 </html>
