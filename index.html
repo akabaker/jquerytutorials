@@ -6,32 +6,20 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-	<dl>
-	    <dt>What are your hours?</dt>
-		<dd>We are open 24/7</dd>
-	    <dt>What are your hours?</dt>
-		<dd>We are open 24/7</dd>
-	    <dt>What are your hours?</dt>
-		<dd>We are open 24/7</dd>
-	    <dt>What are your hours?</dt>
-		<dd>We are open 24/7</dd>
-	    <dt>What are your hours?</dt>
-		<dd>We are open 24/7</dd>
-	</dl>
+	<h2>Click me</h2>
+	<h2>Click me</h2>
+	<h2>Click me</h2>
+	<h2>Click me</h2>
+	<h2>Click me</h2>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
-		(function() {
-			$('dd').filter(':nth-child(n+4)').hide();
+	(function() {
+		$('h2').on('click', function() {
+			console.log('clicked');
+			$(this).clone(true).appendTo('body');
 
-			$('dl').on('mouseenter', 'dt', function() {
-				$(this)
-					.next()
-						.slideDown(200)
-					    .siblings('dd')
-					    	.slideUp(200);
-			});
-		})();
+		});
+	})();
 	</script>
 </body>
 </html>
