@@ -5,96 +5,140 @@
 	<title>jQuery tutorials</title>
 	<link rel="stylesheet" href="style.css">
 	<style>
-		p {
+		body {
+			width: 600px;
+			margin: auto;
+			font-family: sans-serif;
 			text-align: left;
 		}
 
-		article {
-			margin: auto;
-			width: 600px;
+		#contact {
+			background: #e3e3e3;
+			padding: 1em 2em;
+			position: relative;
 		}
 
-		blockquote.co {
-			float: right;
-			background: #e3e3e3;
-			font-size: 2em;
-			width: 35%;
-			text-align: center;
+		.js #contact {
+			position: absolute;
+			top: 0;
+			width: inherit;
+			display: none;
+		}
+
+		#contact h2 { margin-top: 0; }
+
+		#contact ul { padding: 0; }
+
+		#contact li {
+			list-style: none;
+			margin-bottom: 1em;
+		}
+
+		.close {
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			font-weight: bold;
+			font-family: sans-serif;
+			cursor: pointer;
+		}
+
+		input, textarea { 
+			width: 100%;
+			line-height: 2em;
+		}
+
+		input[type=submit] { width: auto; }
+
+		label {
+			display: block
+			text-align: left;
 		}
 	</style>
 </head>
 <body>
 	<article>
-	    <h1>My Post</h1>
-		<p>
-			Contrary to popular belief, Lorem Ipsum is not simply random text. 
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-		</p>
-		<p>
-			<span class=co>Contrary to popular belief, Lorem Ipsum is not simply random text.</span>
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-		</p>
-		<p>
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			<span class=co>Blarg barlg blag lag .</span>
-			It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-			Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up
-		</p>
+		<h1>OMG POST</h1>
+		<p>To the best of my knowledge, only one aerial video operator in the US (Russ Freeman at MI6 Films) has been told by the FAA to stop commercial operations.  (No fines or charges).  
+		It started as a simple case that quickly got out of control.  Basically, the City of</p>
+		<p>rocure a film permit for his Real Estate videography.  (He does get film permits when shooting aerial video for film projects).  He said no.  "How is my photography of real estate any different from MLS photos except the altitude?"  </p>
 	</article>
+	<div id="contact">
+		<form action="#">
+			<ul>
+				<li>
+					<label for="name">Name: </label>
+					<input type="" name="name" value="name" />
+				</li>
+				<li>
+					<label for"email">Email Address</label>
+					<input type="" name="email" value="email" />
+				</li>
+				<li>
+					<label for="comments">Whats up</label>
+					<textarea id="comments" name="comments" cols="30" rows="10"></textarea>
+				</li>
+				<li>
+					<input type="submit" name="" value="submit" />
+				</li>
+			</ul>
+		</form>
+	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
-		/*
-		* If you're creating an element use insertAfter, if the element exists, use after, etc
-		*/
 		(function() {
-			/*
-			$('<h2></h2>', {
-				text: 'Hello from javascript',
-				class: 'omg'
-			}).insertAfter('h1');
-			*/
-			
-			//Move an existing element
-			//$('h1').appendTo('article');
-		
-			//This means get a collection of P tags, then append h1 to each.
-			//$('p').after($('h1'));
+			$('html').addClass('js');
 
-			//Get the first paragraph and then append h1
-			//$('p').eq(0).after($('h1'));
+			var contactForm = {
+				container: $('#contact'), 
 
-			//A better way
-			/*
-			$('p').eq(0).after(function() {
-				return $(this).prev();
+				config: {
+					effect: 'slideToggle',
+					speed: 500
+				},
+
+				init: function(config) {
+					$.extend(this.config, config);
+
+					$('<button></button>', {
+						text: 'Contact Me'
+					}).insertAfter('article')
+					  .on('click', this.show);
+				},
+
+				show: function() {
+					var cf = contactForm,
+						container = cf.container,
+						config = cf.config;
+					
+						if (container.is(':hidden')) {
+							cf.close.call(container);
+							container[config.effect](config.speed);
+						}
+				},
+
+				close: function() {
+					var $this = $(this);
+
+					if ($this.find('span.close').length) {
+						return;
+					}
+
+					$('<span class=close>X</span>')
+						.prependTo(this)
+						.on('click', function() {
+							$this[
+								contactForm.config.effect
+							](contactForm.config.speed);
+						});
+				}
+			};
+
+			contactForm.init({
+				effect: 'fadeToggle',
+				speed: 300
 			});
-			*/
 
-			/*
-			* Adding block quotes around a span
-			* For each co, grab the closest parent element and then create bquotes
-			*/
-			var co = $('article').find('span.co').each(function() {
-				var $this = $(this);
-
-				$('<blockquote></blockquote>', {
-					class: 'co',
-					text: $this.text()
-				}).prependTo($this).closest('p');
-			});	
 		})();
 	</script>
 </body>
