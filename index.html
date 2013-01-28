@@ -4,29 +4,37 @@
 	<meta charset=utf-8>
 	<title>jQuery tutorials</title>
 	<link rel="stylesheet" href="style.css">
+	<style type="text/css">
+		p { margin-top: 0; }
+	</style>
 </head>
 <body>
-	<h1>Reveal</h1>
+	<h1>Click Me</h1>
 	<div class="content">
-		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of rugged individualism where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
-		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of rugged individualism where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
+		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of ?rugged individualism? where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
+		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of ?rugged individualism? where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
 	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
-		$('div.content').hide();
+		(function() {
+			var content = $('div.content').hide();
 
-		//Override the default
-		$.fx.speeds._default = 2000;
+			//Yanked from the jquery source
+			jQuery.fn.flash = function(speed, easing, callback) {
+				//This refers to the div.content
+				var $this = $(this);
 
-		//Custom value
-		//Note, always look in the jQuery source for method defs
-		$.fx.speeds.tortoise = 5000;
+				//Always return the jQuery object
+				return $this.slideDown(500, function() {
+					$this.delay(2000).slideUp(500);
+				});
+				//return this.animate(props, speed, easing, callback);
+			};		
 
-		$('h1').on('click', function() {
-			//this = h1, get the next element (div) and slideDown
-			//can use 'slow' (600) and 'fast' (400), default is 400
-			$(this).next().slideDown('tortoise');
-		});
+			$('h1').on('click', function() {
+				content.flash();	
+			});
+		})();
 	</script>
 </body>
 </html>
