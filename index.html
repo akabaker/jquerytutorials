@@ -4,142 +4,97 @@
 	<meta charset=utf-8>
 	<title>jQuery tutorials</title>
 	<link rel="stylesheet" href="style.css">
-	<style>
-		body {
-			width: 600px;
-			margin: auto;
-			font-family: sans-serif;
-			text-align: left;
-		}
-
-		#contact {
-			background: #e3e3e3;
-			padding: 1em 2em;
-			position: relative;
-		}
-
-		.js #contact {
-			position: absolute;
-			top: 0;
-			width: inherit;
-			display: none;
-		}
-
-		#contact h2 { margin-top: 0; }
-
-		#contact ul { padding: 0; }
-
-		#contact li {
-			list-style: none;
-			margin-bottom: 1em;
-		}
-
-		.close {
-			position: absolute;
-			right: 10px;
-			top: 10px;
-			font-weight: bold;
-			font-family: sans-serif;
-			cursor: pointer;
-		}
-
-		input, textarea { 
-			width: 100%;
-			line-height: 2em;
-		}
-
-		input[type=submit] { width: auto; }
-
-		label {
-			display: block
-			text-align: left;
-		}
-	</style>
 </head>
 <body>
-	<article>
-		<h1>OMG POST</h1>
-		<p>To the best of my knowledge, only one aerial video operator in the US (Russ Freeman at MI6 Films) has been told by the FAA to stop commercial operations.  (No fines or charges).  
-		It started as a simple case that quickly got out of control.  Basically, the City of</p>
-		<p>rocure a film permit for his Real Estate videography.  (He does get film permits when shooting aerial video for film projects).  He said no.  "How is my photography of real estate any different from MLS photos except the altitude?"  </p>
-	</article>
-	<div id="contact">
-		<form action="#">
-			<ul>
-				<li>
-					<label for="name">Name: </label>
-					<input type="" name="name" value="name" />
-				</li>
-				<li>
-					<label for"email">Email Address</label>
-					<input type="" name="email" value="email" />
-				</li>
-				<li>
-					<label for="comments">Whats up</label>
-					<textarea id="comments" name="comments" cols="30" rows="10"></textarea>
-				</li>
-				<li>
-					<input type="submit" name="" value="submit" />
-				</li>
-			</ul>
-		</form>
-	</div>
+	<a href="http://tutsplus.com">Click Me</a>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
-		(function() {
-			$('html').addClass('js');
+		//Refers to the parent object when global
+		//console.log(this);
 
-			var contactForm = {
-				container: $('#contact'), 
 
-				config: {
-					effect: 'slideToggle',
-					speed: 500
-				},
+		/*
+		(function doSomething() {
+			//Refers to the parent object
+			console.log(this);
+		})()
+		**************************************************/
 
-				init: function(config) {
-					$.extend(this.config, config);
 
-					$('<button></button>', {
-						text: 'Contact Me'
-					}).insertAfter('article')
-					  .on('click', this.show);
-				},
+		/*
+		* By default this onclick will defer to the default action of an href
+		* which is to follow the link. Use preventDefault to cancel that action.
+		*
+		$('a').on('click', doSomething);
+		function doSomething(e) {
+			e.preventDefault();
+			console.log(this);
+		}
+		**************************************************/
 
-				show: function() {
-					var cf = contactForm,
-						container = cf.container,
-						config = cf.config;
-					
-						if (container.is(':hidden')) {
-							cf.close.call(container);
-							container[config.effect](config.speed);
-						}
-				},
 
-				close: function() {
-					var $this = $(this);
+		/*
+		* 'this' still referes to the parent object, which is the 'a href'
+		var obj = {
+			doIt: function(e) {
+				e.preventDefault();
+				console.log(this);
+			}
+		}
+		 
+		$('a').on('click', obj.doIt);
+		**************************************************/
 
-					if ($this.find('span.close').length) {
-						return;
-					}
 
-					$('<span class=close>X</span>')
-						.prependTo(this)
-						.on('click', function() {
-							$this[
-								contactForm.config.effect
-							](contactForm.config.speed);
-						});
-				}
-			};
+		/*
+		* If we want 'this' to refer to 'obj', use an anonomous function 
+		* in the event handler (the a.onclick). preventdefault then goes in
+		* the calling anon function.
+		var obj = {
+			doIt: function(e) {
+				console.log(this);
+			}
+		}
+		 
+		$('a').on('click', function(e) {
+			obj.doIt();
+			e.preventDefault();
+		});
+		**************************************************/
 
-			contactForm.init({
-				effect: 'fadeToggle',
-				speed: 300
-			});
 
-		})();
+		/*
+		* What if we still want 'this' to refer to the 'a href'? Use call.
+		var obj = {
+			doIt: function(e) {
+				console.log(this);
+			}
+		}
+		 
+		$('a').on('click', function(e) {
+			//this = anchor that was clicked
+			//you can also pass a variable as well (this, myvar)
+			obj.doIt.call(this);
+
+			//Can also use 'apply', however it takes an array of vars you
+			//want the calling method to recieve
+			//obj.doIt.apply(this, []);
+			e.preventDefault();
+		});
+		**************************************************/
+
+		/*
+		* Jquery.proxy!
+		* Lets you set what 'this' should be (second arg).
+		var obj = {
+			doIt: function(e) {
+				console.log(this);
+				e.preventDefault();
+			}
+		}
+		 
+		$('a').on('click', $.proxy(obj.doIt, obj));
+		**************************************************/
 	</script>
 </body>
 </html>
