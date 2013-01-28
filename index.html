@@ -6,95 +6,27 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<a href="http://tutsplus.com">Click Me</a>
+	<h1>Reveal</h1>
+	<div class="content">
+		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of rugged individualism where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
+		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of rugged individualism where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
+	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
-		//Refers to the parent object when global
-		//console.log(this);
+		$('div.content').hide();
 
+		//Override the default
+		$.fx.speeds._default = 2000;
 
-		/*
-		(function doSomething() {
-			//Refers to the parent object
-			console.log(this);
-		})()
-		**************************************************/
+		//Custom value
+		//Note, always look in the jQuery source for method defs
+		$.fx.speeds.tortoise = 5000;
 
-
-		/*
-		* By default this onclick will defer to the default action of an href
-		* which is to follow the link. Use preventDefault to cancel that action.
-		*
-		$('a').on('click', doSomething);
-		function doSomething(e) {
-			e.preventDefault();
-			console.log(this);
-		}
-		**************************************************/
-
-
-		/*
-		* 'this' still referes to the parent object, which is the 'a href'
-		var obj = {
-			doIt: function(e) {
-				e.preventDefault();
-				console.log(this);
-			}
-		}
-		 
-		$('a').on('click', obj.doIt);
-		**************************************************/
-
-
-		/*
-		* If we want 'this' to refer to 'obj', use an anonomous function 
-		* in the event handler (the a.onclick). preventdefault then goes in
-		* the calling anon function.
-		var obj = {
-			doIt: function(e) {
-				console.log(this);
-			}
-		}
-		 
-		$('a').on('click', function(e) {
-			obj.doIt();
-			e.preventDefault();
+		$('h1').on('click', function() {
+			//this = h1, get the next element (div) and slideDown
+			//can use 'slow' (600) and 'fast' (400), default is 400
+			$(this).next().slideDown('tortoise');
 		});
-		**************************************************/
-
-
-		/*
-		* What if we still want 'this' to refer to the 'a href'? Use call.
-		var obj = {
-			doIt: function(e) {
-				console.log(this);
-			}
-		}
-		 
-		$('a').on('click', function(e) {
-			//this = anchor that was clicked
-			//you can also pass a variable as well (this, myvar)
-			obj.doIt.call(this);
-
-			//Can also use 'apply', however it takes an array of vars you
-			//want the calling method to recieve
-			//obj.doIt.apply(this, []);
-			e.preventDefault();
-		});
-		**************************************************/
-
-		/*
-		* Jquery.proxy!
-		* Lets you set what 'this' should be (second arg).
-		var obj = {
-			doIt: function(e) {
-				console.log(this);
-				e.preventDefault();
-			}
-		}
-		 
-		$('a').on('click', $.proxy(obj.doIt, obj));
-		**************************************************/
 	</script>
 </body>
 </html>
