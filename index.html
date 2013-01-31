@@ -5,36 +5,99 @@
 	<title>jQuery tutorials</title>
 	<link rel="stylesheet" href="style.css">
 	<style type="text/css">
-		p { margin-top: 0; }
+		body {
+			margin: 0;
+		}
+		.box {
+			width: 400px;
+			background: red;
+			padding: 2em;
+			position: relative;
+			-webkit-transition: border-radius 1s;
+		}
+
+		.rounded { border-radius: 50px };
 	</style>
 </head>
 <body>
-	<h1>Click Me</h1>
-	<div class="content">
-		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of ?rugged individualism? where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
+	<div class="box">
+		<h2>Some Content Here</h2>
 		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of ?rugged individualism? where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
 	</div>
+	<p>
+	<!-- Uncomment for most of the examples	
+		<button>Increase</button>
+	-->
+		<button>Center</button>
+	</p>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
-		(function() {
-			var content = $('div.content').hide();
+	(function() {
+		var box = $('div.box');
+		// Center
+		// outerWidth takes into account border/margins
+		var w = $(window).width() / 2 - box.outerWidth() / 2;
+		var h = $(window).height() /2 - box.outerHeight() / 2;
+		//speed, easing, callback
+		$('button').on('click', function() {
+			box.addClass('rounded');
+		/*
+			box.animate({
+				'left': w,
+				'position': 'absolute'
+			})
+			.animate({
+				'top': h
+			}, { duration: 2000, queue: false });
+		*/
 
-			//Yanked from the jquery source
-			jQuery.fn.flash = function(speed, easing, callback) {
-				//This refers to the div.content
-				var $this = $(this);
+		/*
+		* Animate example 1
 
-				//Always return the jQuery object
-				return $this.slideDown(500, function() {
-					$this.delay(2000).slideUp(500);
-				});
-				//return this.animate(props, speed, easing, callback);
-			};		
-
-			$('h1').on('click', function() {
-				content.flash();	
+			box.animate({
+				'fontSize': '+=5',
+				'width': '+=300'
+			}, 500, 'swing', function() {
+				console.log('complete');
 			});
-		})();
+		*/
+
+		/* Animate with complete and step callbacks
+		*
+			box.animate({
+				'fontSize': '+=5'
+				}, {
+				duration: 500,
+				complete: function() {
+					console.log('completed');
+				},
+				step: function() {
+					console.log($(this).css('fontSize'));
+				}
+			});
+		*/
+
+		/*
+		* Two animates together
+		*
+			box
+				.animate({
+					'fontSize': '+=5'
+				}, { duration: 500 })
+				.animate({ 'top': 500 }, 300);
+		});
+		*/
+
+		/*
+		* Two animates without queue (execute at the same time)
+			box
+				.animate({
+					'fontSize': '+=5'
+				}, { duration: 500 })
+				.animate({ 'top': 500 }, { duration: 3000, queue: false });
+		*/
+		});
+	})();
 	</script>
 </body>
 </html>
