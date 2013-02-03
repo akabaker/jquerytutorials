@@ -29,7 +29,6 @@
 		        <img src="img/img4.gif" alt="image" />
 		    </li>
 		</ul>
-<<<<<<< HEAD
 	</div>
 
 	<div id="slider-nav">
@@ -41,23 +40,17 @@
 	<script type="text/javascript">
 	(function() {
 		var container = $('div.slider').css('overflow', 'hidden').children('ul');
+		new Slider(container, $('#slider-nav') );
+		/* Using the events prototype
+		*
 		var slider = new Slider(container, $('#slider-nav') );
-
+		
 		slider.nav.show().find('button').on('click', function() {
 			slider.setCurrent( $(this).data('dir') );
 			slider.transition();
 		});
+		*/
 	})();
 	</script>
-=======
-	</div>
-
-	<div id="slider-nav">
-		<button data-dir="prev">Previous</button>
-		<button data-dir="next">Next</button>
-	</div>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
-	<script src="slider.js"></script>
->>>>>>> 416f9887ab095c024e03183eb7ace4d9661894ed
 </body>
 </html>
