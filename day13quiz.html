@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<title>jQuery tutorials</title>
+	<link rel="stylesheet" href="style.css">
+	<style type="text/css">
+		body {
+			margin: 0;
+		}
+		.box {
+			width: 400px;
+			background: red;
+			padding: 2em;
+			position: relative;
+			-webkit-transition: border-radius 1s;
+		}
+
+		.rounded { border-radius: 50px };
+	</style>
+</head>
+<body>
+	<div class="box">
+		<h2>Some Content Here</h2>
+		<p>ts just another depression, that happen every so often. At that point, no one had any idea how bad it would be. Hoover believed in the concept of ?rugged individualism? where basically, he disagreed with socialism/communism (more basically, he was conservative). So he started out with no special programs, as any president would have done (including FDR) in his position. He started out with encouragement towards business management, then when everyone started to realize it was bad, he started to move towards more drastic measures, such as his</p>
+	</div>
+	<p>
+	<!-- Uncomment for most of the examples	
+		<button>Increase</button>
+	-->
+		<button>Show</button>
+	</p>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+	<script>
+	(function() {
+		var box = $('div.box').hide();
+
+		jQuery.fn.fadeSlideToggle = function(speed, easing, callback) {
+			var $this = $(this);
+
+			return $this
+				.animate({
+					'left': 500
+					}, { duration: 800 })
+				.animate({ 'opacity': 'show' }, { duration: 800, queue: false });
+		};
+
+		box.fadeSlideToggle();
+	})();
+	</script>
+</body>
+</html>
