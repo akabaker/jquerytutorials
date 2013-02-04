@@ -25,16 +25,18 @@
 			];
 
 			// trim whitespace off of html
-			var template = $.trim($('#blogTemplate').html());
+			// build a string (frag) and then add to DOM after the .each
+			var template = $.trim($('#blogTemplate').html()),
+				frag = "";
 
 			$.each(content, function(key, obj) {
 				// ignore case, global
-				var tmpl = 
+				frag += 
 					template.replace(/{{title}}/ig, obj.title)
 							.replace(/{{thumbnail}}/ig, obj.thumbnail);
 
-				$(document.body).append(tmpl);
 			});
+			$('body').append(frag);
 		})();
 	</script>
 </body>
