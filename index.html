@@ -4,39 +4,59 @@
 	<meta charset=utf-8>
 	<title>jQuery tutorials</title>
 	<link rel="stylesheet" href="style.css">
+	<style type="text/css">
+		h2 span { 
+			color: gray; 
+			font-size: 0.8em;
+		}
+	</style>
 </head>
 <body>
-	<script type="tuts/template" id="blogTemplate">
-		<h2>{{title}}</h2>
-		<img src={{thumbnail}} alt={{title}}>
-	</script>
+	<ul class="tweets">
+		<script type="text/x-handlebars-template" id="template">
+			{{#each this}}
+			<li>
+			<h2>{{fullName author}} {{#if age}}- <span>{{age}}</span>{{/if}}</h2>
+				<p>{{{tweet}}}</p>
+				
+				{{#if quote}}
+					<h5>{{quote}}</h5>
+				{{else}}
+					<h5>author doesn't have quote</h5>
+				{{/if}}
+			</li>
+			{{/each}}
+		</script>
+	</ul>
+		
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+	<script src="https://raw.github.com/wycats/handlebars.js/1.0.rc.2/dist/handlebars.js"></script>
 	<script>
 		(function() {
-			var content = [
+			
+			// Three curly braces on tweet prevents html escaping
+			var context = [
 				{
-					title: 'My awesome blog post',
-					thumbnail: 'http://cdn.tutsplus.com/net.tutsplus.com/authors/jeremymcpeak/chrome-dev-tools-part-3-preview.jpg'
+					author: { first: 'Jeffrey', last: 'Way' },
+					tweet: '30 days to learn jquery',
+					age: 27,
+					quote: 'hi'
 				},
 				{
-					title: 'My second awesome blog post',
-					thumbnail: 'http://cdn.tutsplus.com/net.tutsplus.com/authors/jeffreyway/write-code-that-embraces-change.jpg'
+					author: { first: 'Other', last: 'Guy' },
+					tweet: '<strong>omg</strong>'
 				}
 			];
 
-			// trim whitespace off of html
-			// build a string (frag) and then add to DOM after the .each
-			var template = $.trim($('#blogTemplate').html()),
-				frag = "";
-
-			$.each(content, function(key, obj) {
-				// ignore case, global
-				frag += 
-					template.replace(/{{title}}/ig, obj.title)
-							.replace(/{{thumbnail}}/ig, obj.thumbnail);
-
+			Handlebars.registerHelper('fullName', function(author) {
+				return author.first + ' ' + author.last;
 			});
-			$('body').append(frag);
+
+			var source = $('#template').html();
+			var template = Handlebars.compile(source);
+
+			$('ul.tweets').append(template(context));
 		})();
 	</script>
 </body>
