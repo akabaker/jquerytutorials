@@ -3,27 +3,21 @@
 <head>
 	<meta charset=utf-8>
 	<title>jQuery tutorials</title>
-	<link rel="stylesheet" href="style.css">
 	<style type="text/css">
-		h2 span { 
-			color: gray; 
-			font-size: 0.8em;
-		}
+		body { width: 600px; margin: auto; }
+		ul { list-style: none; }
+		li { padding-bottom: 1em; }
+		img { float: left; padding-right: 1em; }
+		a { text-decoration: none; color: #3f3f3f }
 	</style>
 </head>
 <body>
 	<ul class="tweets">
-		<script type="text/x-handlebars-template" id="template">
+		<script id="tweets-template" type="text/x-handlebars-template">
 			{{#each this}}
 			<li>
-			<h2>{{fullName author}} {{#if age}}- <span>{{age}}</span>{{/if}}</h2>
-				<p>{{{tweet}}}</p>
-				
-				{{#if quote}}
-					<h5>{{quote}}</h5>
-				{{else}}
-					<h5>author doesn't have quote</h5>
-				{{/if}}
+				<img src="{{thumb}}" alt="{{author}}" />
+				<p><a href="{{url}}">{{tweet}}</a></p>
 			</li>
 			{{/each}}
 		</script>
@@ -34,29 +28,49 @@
 	<script src="https://raw.github.com/wycats/handlebars.js/1.0.rc.2/dist/handlebars.js"></script>
 	<script>
 		(function() {
-			
-			// Three curly braces on tweet prevents html escaping
-			var context = [
-				{
-					author: { first: 'Jeffrey', last: 'Way' },
-					tweet: '30 days to learn jquery',
-					age: 27,
-					quote: 'hi'
+			var Twitter = {
+				init: function(config) {
+					// this == Twitter
+					this.url = 'https://search.twitter.com/search.json?q='+config.query+'&callback=?';
+					console.log(this.url);
+					this.template = config.template;
+					this.container = config.container;
+					this.fetch();
 				},
-				{
-					author: { first: 'Other', last: 'Guy' },
-					tweet: '<strong>omg</strong>'
+
+				attachTemplate: function() {
+					var template = Handlebars.compile(this.template);
+					this.container.append(template(this.tweets));
+
+				},
+
+				fetch: function() {
+					var self = this;
+
+					$.getJSON(this.url, function(data) {
+						// Filter through data.results and for each one
+						// execute a function
+						self.tweets = $.map(data.results, function(tweet) {
+							return {
+								author: tweet.from_user,
+								tweet: tweet.text,
+								thumb: tweet.profile_image_url,
+								url: 'https://twitter.com/' + tweet.from_user +
+								'/status/' + tweet.id_str
+							};
+						});
+
+						// self.tweets is data
+						self.attachTemplate();
+					});
 				}
-			];
+			};
 
-			Handlebars.registerHelper('fullName', function(author) {
-				return author.first + ' ' + author.last;
+			Twitter.init({
+				template: $('#tweets-template').html(),
+				container: $('ul.tweets'),
+				query: 'planetside2'
 			});
-
-			var source = $('#template').html();
-			var template = Handlebars.compile(source);
-
-			$('ul.tweets').append(template(context));
 		})();
 	</script>
 </body>
