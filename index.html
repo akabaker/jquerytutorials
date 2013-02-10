@@ -5,22 +5,32 @@
 	<title>jQuery tutorials</title>
 </head>
 <body>
-	<a href="about.html">Learn more about me</a>
-	<br>
-	<a href="contact.html">Contact me</a>
 
-	<div class="wrap"></div>
+	<h1>Something to Save</h1>
+	<form action="#">
+		<textarea name="content" id="content" cols="30" rows="10"></textarea>
+		<p><button type="submit">Save</button></p>
+	</form>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
 		(function() {
-			var wrap = $('div.wrap');
-			// load, getJSON, get, post, getScript... all call $.ajax
-			// load about.html, only get the container
-			$('a').on('click', function(e) {
-				var href = $(this).attr('href');
+
+			// if something already exists in the text file, load it and put it into the dom
+			$.post('load.php', function(data) {
+				if (data) {
+					$('#content').val(data);
+				}
+			});
+
+			// save to save.php by serializing form and preventing default
+			$('form').on('submit', function(e) {
+				$.post('save.php', $(this).serialize(), function(data) {
+					console.log(data);
+				});
+				
+				// Disable submit
 				e.preventDefault();
-				wrap.load(href + ' .container');
 			});
 		})();
 	</script>
