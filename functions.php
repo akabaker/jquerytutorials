@@ -1,5 +1,9 @@
 <?php
 
+function isXHR() {
+	return isset($_SERVER['HTTP_X_REQUESTED_WITH']);
+}
+
 function connect() {
 	global $pdo;
 	$pdo = new PDO("mysql:host=localhost;dbname=sakila", "sakila", "omgpassword");
