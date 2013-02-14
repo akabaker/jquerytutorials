@@ -3,36 +3,118 @@
 <head>
 	<meta charset=utf-8>
 	<title>jQuery tutorials</title>
+	<link rel="stylesheet" href="style.css">
+	<style type="text/css">
+		.box {
+			width: 200px;
+			height: 200px;
+			background: green;
+			display: inline-block;
+			margin-right: 3em;
+		}
+	</style>
 </head>
 <body>
 
-	<h1>Something to Save</h1>
-	<form action="#">
-		<textarea name="content" id="content" cols="30" rows="10"></textarea>
-		<p><button type="submit">Save</button></p>
-	</form>
+	<div class="box">my box</div>
+	<div class="box">my box</div>
+	<div class="box">my box</div>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 	<script>
-		(function() {
+		/************ BASIC OMG ********************************
+		var myVar;
 
-			// if something already exists in the text file, load it and put it into the dom
-			$.post('load.php', function(data) {
-				if (data) {
-					$('#content').val(data);
-				}
-			});
+		var setVal = function() {
+			var deferred = $.Deferred();
 
-			// save to save.php by serializing form and preventing default
-			$('form').on('submit', function(e) {
-				$.post('save.php', $(this).serialize(), function(data) {
-					console.log(data);
-				});
-				
-				// Disable submit
-				e.preventDefault();
-			});
-		})();
+			setTimeout(function() {
+				myVar = 'my value';
+				//deferred.resolve();
+
+				// If the result failed, the done will never fire
+				// See the fail method
+				deferred.reject();
+
+			}, 2000);
+
+			return deferred.promise();
+		};
+
+		// You can call done again, if it's already resolved then it will
+		// return instantly
+		//
+		// When the setval function is done, do this
+		setVal().done(function() {
+			console.log('all done ' + myVar);
+		});
+
+		setVal().fail(function() {
+			console.log('failed!');
+		});
+
+		// Always runs, fail or resolve
+		setVal().always(function() {
+			console.log('always runs');
+		});
+
+		// Accepts success callback as first param, fail as second
+		setVal().then(
+			function() {
+				console.log('all done: ' + myVar);
+			},
+			function() {
+				console.log('failed');
+			}
+		);
+		*/
+
+		/************ AWESOME RIGHT HUR *********************
+		$.searchTwitter = function(search) {
+
+			// ajax automatically returns a promise and uses a deferred
+			return $.ajax({
+				url: 'https://search.twitter.com/search.json',
+				data: { q: search },
+				dataType: 'jsonp'
+			}).promise();
+
+		};
+
+		var outer = $.searchTwitter('cats');
+
+		outer.then(function(results) {
+			console.log(results);
+		});
+
+		outer.then(function(results) {
+			console.log(results);
+		});
+		*/
+
+		/*********** DEFERRED WITH ANIMATIONS
+		$('div.box').each(function(i) {
+			$(this).delay(1000 * i++).fadeOut(1000);
+		}).promise().done(function() {
+			console.log('all animations have fired');
+		});
+		*/
+
+		// stack multiple async operations
+
+		function getTweets(search) {
+			return $.ajax({
+				url: 'https://search.twitter.com/search.json',
+				data: { q: search },
+				dataType: 'jsonp'
+			}).promise();
+		}
+
+		// ONLY when all async are done, do the thing
+		$.when(getTweets('dogs'), getTweets('cats')).done(function(results1, results2) {
+			console.log(results1);
+			console.log(results2);
+		});
 	</script>
 </body>
 </html>
